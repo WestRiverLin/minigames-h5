@@ -763,7 +763,6 @@
                 <button class="safe-btn" onclick="closeSafeModal()">取消</button>
                 <button class="safe-btn try" onclick="trySafeCombo()">尝试开锁</button>
             </div>
-            <p style="color: #666; font-size: 12px; margin-top: 20px; text-align: center;">文件上的数字：1-6-9-0<br>但密码可能不是这个...</p>
         </div>
         
         <!-- 对话区域 -->
@@ -1204,7 +1203,7 @@
                 sceneClass: 'scene-hallway',
                 character: 'detective',
                 speaker: '你',
-                text: '你已经收集了足够的线索。是时候做出结论了。凶手是如何制造密室的？真正的凶手是谁？\n\n保险箱里的账本揭露了复杂的商业纠纷，但还需要更多证据来完整还原案情。',
+                text: '你已经收集了足够的线索。是时候做出结论了。凶手是如何制造密室的？真正的凶手是谁？\n\n所有证据都指向了一个人，但你需要完整的推理来证明你的结论。',
                 choices: [
                     { text: '指控李明是凶手', next: 'quiz_intro', track: true },
                     { text: '指控管家是凶手', next: 'ending_butler', track: true },
@@ -1220,7 +1219,7 @@
                 sceneClass: 'scene-ending',
                 character: 'detective',
                 speaker: '你',
-                text: '你指控李明是凶手。警方将他带回审讯，但他坚称自己无罪。现在，你需要还原整个案件的真相，回答以下问题来证明你的推理。\n\n保险箱里的账本是最关键的证据，它揭露了复杂的商业纠纷和作案动机。',
+                text: '你指控李明是凶手。警方将他带回审讯，但他坚称自己无罪。现在，你需要还原整个案件的真相，回答以下问题来证明你的推理。',
                 choices: [
                     { text: '开始案情还原', next: 'quiz_1' }
                 ]
@@ -1721,9 +1720,11 @@
             // 替换线索（如神秘数字 → 保险箱证据）
             if (scene.clueAlt && state.clues.includes(scene.clueAlt)) {
                 const idx = state.clues.indexOf(scene.clueAlt);
-                state.clues[idx] = scene.clue;
-                updateCluePanel();
-                document.getElementById('clue-count').textContent = '线索：' + state.clues.length;
+                if (idx !== -1 && !state.clues.includes(scene.clue)) {
+                    state.clues[idx] = scene.clue;
+                    updateCluePanel();
+                    document.getElementById('clue-count').textContent = '线索：' + state.clues.length;
+                }
             }
         }
 
@@ -1824,7 +1825,7 @@
             '死者手中：深蓝色西装布料': '死者临死前从凶手身上扯下的布料，深蓝色西装材质。这是指向凶手身份的关键物证。',
             '李明：声称在家，无人证': '李明声称案发时独自在家，但没有人能证明。他的不在场证明存在漏洞。',
             '李明与死者有商业纠纷': '李明承认与陈明远有商业纠纷，涉及挪用项目资金。这构成了明显的作案动机。',
-            '保险箱证据：神秘账本': '保险箱内找到的公司账本和股权转让协议草稿。账本显示有大量资金流向不明账户，股权转让协议显示陈明远准备将公司转给其他人。这些证据暗示了复杂的商业纠纷，但需要进一步分析才能确定具体涉及的人员。'
+            '保险箱证据：神秘账本': '保险箱内找到的公司账本和股权转让协议草稿。账本显示有大量资金流向不明账户，股权转让协议显示陈明远准备将公司转给其他人。这些证据暗示了复杂的商业纠纷和作案动机。'
         };
 
         // 更新线索面板
